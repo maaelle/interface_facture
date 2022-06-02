@@ -52,37 +52,3 @@ def main(path, display_image):
 
     return total
 
-# ----------------------------------------------------------------------------------------------------------------------
-#               Test le programme sur un dataset
-# ----------------------------------------------------------------------------------------------------------------------
-
-def table_comparaison():
-    df = pd.read_csv("table/table_de_verification_dataset.csv", sep=';')
-    for i in range(len(df)):
-        num = df.loc[i, 'numero']
-        print(num)
-        try:
-            total = main("dataset/" + str(num) + "-receipt.jpg", False)
-            # total = main("data_2/" + str(num) +".jpg", False) #2
-        except:
-            total = '0'
-        df.loc[i, 'total_obtenu'] = total
-    df["result"] = df.apply(lambda row: True if float(row["total"]) == float(row["total_obtenu"]) else False, axis=1)
-    count = df['result'].value_counts()
-    vrai = len(df[df['result'] == True])
-    print('pourcentage', (int(vrai) / len(df)) * 100)
-    print(df)
-    print(count)
-
-# ----------------------------------------------------------------------------------------------------------------------
-#               Chronomètre + Lancement fonction
-# ----------------------------------------------------------------------------------------------------------------------
-
-start = time.time()
-
-#print("LE TOTAL EST : ", main("data/sample.jpg", True))
-table_comparaison()
-
-end = time.time()
-executionTime = end - start
-print('Temps d\'exécution : ', executionTime, ' s')
