@@ -3,8 +3,7 @@ import os
 from flask import Flask, send_from_directory
 from dash import Dash, html, dcc, Input, Output, State
 import dash_bootstrap_components as dbc
-import main
-import atexit
+
 # App Instance
 app = dash.Dash(name="name")
 app.title = "name"
