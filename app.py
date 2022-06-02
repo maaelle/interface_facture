@@ -6,6 +6,7 @@ import dash_bootstrap_components as dbc
 
 # App Instance
 app = dash.Dash(name="name")
+server = app.server
 app.title = "name"
 ########################## Navbar ##########################
 # Input
