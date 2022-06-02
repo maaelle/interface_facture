@@ -1,42 +1,31 @@
-import base64
-import os
-from flask import Flask, send_from_directory
-from dash import Dash, html, dcc, Input, Output, State
-import dash_bootstrap_components as dbc
+from dash import Dash, html, dcc
+import plotly.express as px
+import pandas as pd
 
-# App Instance
-app = dash.Dash(name="name")
-server = app.server
-app.title = "name"
-########################## Navbar ##########################
-# Input
-# Output
-navbar = dbc.Nav()
-# Callbacks
-@app.callback()
-def function():
-    return 0
-########################## Body ##########################
-# Input
-inputs = dbc.FormGroup()
-# Output
-body = dbc.Row([
-        ## input
-        dbc.Col(md=3),
-        ## output
-        dbc.Col(md=9)
+app = Dash(__name__)
+
+# assume you have a "long-form" data frame
+# see https://plotly.com/python/px-arguments/ for more options
+df = pd.DataFrame({
+    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
+    "Amount": [4, 1, 2, 2, 4, 5],
+    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
+})
+
+fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
+
+app.layout = html.Div(children=[
+    html.H1(children='Hello Dash'),
+
+    html.Div(children='''
+        Dash: A web application framework for your data.
+    '''),
+
+    dcc.Graph(
+        id='example-graph',
+        figure=fig
+    )
 ])
-# Callbacks
-@app.callback()
-def function():
-    return 0
-########################## App Layout ##########################
-app.layout = dbc.Container(fluid=True, children=[
-    html.H1("name", id="nav-pills"),
-    navbar,
-    html.Br(),html.Br(),html.Br(),
-    body
-])
-########################## Run ##########################
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     app.run_server(debug=True)
